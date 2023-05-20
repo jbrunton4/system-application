@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Posh_#5531</title>
+
+    {% include 'metadata.html' %}
+  </head>
+  <body>
+    <div class="center">
+      <img src="{{ current_user.avatar_url }}" id="pfp"/>
+
+      <h1>
+        {{ current_user.username }}<sub><font color="#c3c3c3">#{{ current_user.discriminator }}</font></sub>
+      </h1>
+      <h2>
+        "System Name Goes Here"
+      </h2>
+
+      <hr />
+
+      <p>
+        Successfully logged in with discord.
+      </p>
+
+      <hr />
+
+      <button class="action-btn discord-btn" onclick="window.location.href = 'https://discord.com/api/oauth2/authorize?client_id=1109263479417864294&redirect_uri=http%3A%2F%2F127.0.0.1%3A81%2Fauth%2Fdiscord&response_type=code&scope=identify'">
+        <span class="iconify" data-icon="jam:discord"></span>
+        Log In with Discord
+      </button>
+
+    </div>
+  </body>
+</html>

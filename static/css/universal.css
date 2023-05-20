@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+:root {
+    --main-content-width: calc(80vw - 30px);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+/* scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 10px;
+}
+
+body {
+  background-image: url("https://i.ytimg.com/vi/pu3LE4_7fNY/maxresdefault.jpg");
+}
+
+div.center {
+  width: calc(80vw - 30px);
+  height: calc(80vh - 30px);
+  margin-left: 10vw;
+  margin-top: 10vh;
+
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: 2px 2px 2px black;
+
+  padding: 15px;
+
+  overflow-y: scroll;
+}
+
+div.center img#pfp {
+  margin-top: 5%;
+  width: 30%;
+  margin-left: 35%;
+  border-radius: 50%;
+  border: 2px solid black;
+}
+
+div.center h1 {
+  width: 100%;
+  text-align: center;
+  margin-top: 5%;
+}
+
+div.center h2 {
+  width: 100%;
+  text-align: center;
+  font-weight: normal;
+  font-size: 2vh;
+  color: #888888;
+}
+
+div.center hr {
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+div.center div.center-text {
+  width: 100%;
+  text-align: center;
+}
+
+div.center a {
+  color: inherit;
+}
+
+div.center button.action-btn {
+  width: 100%;
+  padding: 7px;
+  font-size: 2.75vh;
+  margin-bottom: 2%;
+
+  background-color: #d0bb94;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+
+  cursor: pointer;
+
+  transition: 0.2s both;
+}
+
+div.center button.back-btn {
+  width: 50%;
+  margin-left: 25%;
+}
+
+div.center button.twitch-btn {
+  background: #a970ff;
+}
+
+div.center button.discord-btn {
+    background: #5567e3;
+}
+
+div.center button.twitch-btn:hover {
+  background: linear-gradient(90deg, #a970ff, #754db1);
+}
+
+div.center button.steam-btn {
+  background: #333333;
+}
+
+div.center button.steam-btn:hover {
+  background: linear-gradient(90deg, #16283e, #1f93be);
+}
+
+@media only screen and (min-width: 800px) {
+  div.center {
+    width: 25% !important;
+    margin-left: 37.5%;
+  }
+}
+
+.iconify {
+  transform: translate(0, 2.5px);
+}

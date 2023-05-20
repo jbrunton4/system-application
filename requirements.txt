@@ -1,1 +1,4 @@
-mysql
+sqlite3
+flask
+requests
+Zenora
