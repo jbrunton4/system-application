@@ -6,6 +6,7 @@ app.config["SECRET_KEY"] = "beeeansbones"
 
 from pages.auth import discord
 from pages.account import dashboard
+from pages import about
 
 
 @app.route("/", methods=["GET"])

@@ -27,7 +27,7 @@ which allow users to add a prefix and/or suffix to their messages in order to
 change the display name and profile picture under which they are sent by making
 use of discord's Webhook integration. 
 
-![A gif of a Discord proxy bot in action](jbrunton4.github.io/systems-application/assets/img/proxy-demo.gif)
+![A gif of a Discord proxy bot in action](./static/img/proxy-demo.gif)
 <br /><sup>A gif of a Discord proxy bot in action</sup> 
 
 Due to the nature of these bots and Discord itself, it can be somewhat

@@ -27,6 +27,7 @@
 
 body {
   background-image: url("https://i.ytimg.com/vi/pu3LE4_7fNY/maxresdefault.jpg");
+  background-size: cover;
 }
 
 div.center {
@@ -66,6 +67,12 @@ div.center h2 {
   color: #888888;
 }
 
+div.center h3 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
 div.center hr {
   margin-top: 2%;
   margin-bottom: 2%;
@@ -78,6 +85,14 @@ div.center div.center-text {
 
 div.center a {
   color: inherit;
+}
+
+div.center p {
+    margin-bottom: 20px;
+}
+
+div.center img {
+    width: 100%;
 }
 
 div.center button.action-btn {

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>About</title>
+
+    {% include 'metadata.html' %}
+  </head>
+  <body>
+    <div class="center" style="padding: 2%;">
+
+      <h1>
+        About
+      </h1>
+      <h2>
+        Info on this project
+      </h2>
+
+      <h3>Contents</h3>
+      <ul>
+        <li><a href="#project-purpose">Project Purpose</a></li>
+        <li><a href="#what-is-did-osdd">What Is DID/OSDD?</a></li>
+        <li><a href="#what-is-a-subsystem">What Is A Subsystem?</a></li>
+        <li><a href="#inspiring-solutions">Inspiring Solutions</a></li>
+        <li><a href="#funding">Funding</a></li>
+      </ul>
+
+      <hr />
+
+      <h3 id="project-purpose">Project Purpose</h3>
+      <p>
+        This project is intended to be a simple solution to present and
+        organise information about DID/OSDD systems and their alters.
+        (See
+        <a href="#what-is-did-osdd">
+          What Is DID/OSDD?
+          <sup>
+            <span class="iconify" data-icon="mdi:link-variant"></span>
+          </sup>
+        </a>).
+      </p>
+
+      <p>
+        While not the original intended purpose, as with
+        later-discussed solutions, this application can be used
+        for organising other information, such as that of original
+        characters (OCs).
+      </p>
+
+      <hr />
+
+      <h3 id="what-is-did-osdd">What Is DID/OSDD?</h3>
+      <p>
+        Both DID and OSDD are trauma response disorders
+        more commonly known by the more outdated
+        and stigmatised term, Multiple Personality Disorder (MPD).
+        MPD is a term first introduced in the DSM-3 in 1980, and
+        was later reclassified into DID and OSDD.
+      </p>
+
+      <p>
+        In both DID and OSDD, multiple "alters" with different personalities,
+        memories, and experiences are present inside the same body. One or
+        more alters may control the body at any time. Note that while
+        "alter" is arguably the most common term, different systems may
+        prefer different terms.
+      </p>
+
+      <p>
+        A group of alters together in a body is called a system. In other
+        words, a system describes a body with DID/OSDD and the alters
+        therein. Some people might "have", "are", or "are part of" a system.
+      </p>
+
+      <p>
+        DID (Dissociative Identity Disorder) is closest to the common
+        idea of MPD, with alters usually unable to remember what happened
+        while they were not "in front" (controlling the body), though as
+        with all systems, this will vary on a case-by-case basis.
+      </p>
+
+      <p>
+        OSDD (Other Specified Dissociative Disorder, formerly DDNOS
+        Dissociative Disorder Not Otherwise Specified) typically
+        involves less amnesia than DID. There are also 4 separate types:
+      </p>
+
+      <ol type="1">
+        <li>Sub-threshold DID, described as "Partial DID"</li>
+        <li>Caused by "prolonged and intense coercive persuasion"</li>
+        <li>Acute dissociative reactions to stressful events</li>
+        <li>Loss of awareness of surroundings</li>
+      </ol>
+
+      <p>
+        These descriptions are very limited and do not at all characterise
+        the full extent of what DID and OSDD entail. It is encouraged to
+        do your own research, and always accept that different systems
+        can have vastly different experiences that may seem impossible to
+        those without DID/OSDD.
+      </p>
+
+      <hr />
+
+      <h3 id="what-is-a-subsystem">What Is A Subsystem?</h3>
+      <p>
+        To understand the concept of a subsystem, it is first essential
+        to understand the concept of a headspace or innerworld.
+      </p>
+
+      <p>
+        A headspace, sometimes also called an innerworld or inner world,
+        is a dream-like space inside the brain where alters usually have
+        their own forms. These forms can vary wildly in size, shape,
+        species, and more. Headspaces usually also contain objects,
+        buildings, and other things.
+      </p>
+
+      <p>
+        Usually, an area of headspace represents "front", where alters
+        can go to experience and control the body. Note that some
+        systems may instead have an "object front", which connects
+        alters to front while they are touching it, and some may have both
+        or neither.
+      </p>
+
+      <p>
+        Alters' unique bodies in headspace are also subject to developing
+        their own dissociative disorders. This can mean that an alter
+        in a system can develop their own subsystem with their own
+        headspace, known as a "subsystem", and share their headspace body
+        with subsystem alters.
+      </p>
+
+      <p>
+        A subsystem, therefore, is in its most fundamental sense, a
+        system within a system.
+      </p>
+
+      <hr />
+
+      <h3 id="inspiring-solutions">Inspiring Solutions</h3>
+
+      <p>
+        For many systems, the preferred app for communicating is
+        <a href="https://discord.com">
+          Discord
+          <sup>
+            <span class="iconify" data-icon="mdi:link-variant"></span>
+          </sup>
+        </a>. While Discord has many features that make it appealing
+        to a wide variety of users, a particularly helpful feature for
+        systems is the Webhooks feature, which allows for an activity
+        commonly known as "proxying".
+      </p>
+
+      <p>
+        Discord Bots can send requests to Webhooks, which will in turn
+        send a message to a specified channel. This is different from
+        users and bots sending regular messages in a few key ways.
+        Importantly for proxying, one such difference is that on top of
+        message content, display names and profile pictures for messages
+        sent via webhook are on a per-message basis.
+      </p>
+
+      <p>
+        In practice, this means that with the help of a bot,
+        a user can send messages to servers under a different name
+        and avatar from that of their account or server profile, typically
+        by putting text before, after, or around their message content.
+        This is easiest to see in action:
+      </p>
+
+      <img src="{{ url_for('static', filename='img/proxy-demo.gif') }}" />
+      <sup>A demonstration of Discord Proxying using my account and a proxy
+      for one of my D&amp;D characters.</sup>
+
+      <p>
+        The two most common proxying solutions for systems, role-players
+        and more are
+        <a href="https://tupperbox.app">
+          TupperBox
+          <sup>
+            <span class="iconify" data-icon="mdi:link-variant"></span>
+          </sup>
+        </a>
+        and
+        <a href="https://pluralkit.mn">
+          PluralKit
+          <sup>
+            <span class="iconify" data-icon="mdi:link-variant"></span>
+          </sup>
+        </a>. TupperBox is more beginner-friendly, while PluralKit
+        boasts a more diverse set of features.
+      </p>
+
+      <p>
+        Both TupperBox and PluralKit have web dashboards that can be used
+        to view and edit limited information regarding proxies.
+        Discord users can also request information from the bots,
+        but the text commands are difficult to remember and format.
+        As such, it is often difficult to easily represent information
+        regarding different proxies. This solution aims to combat
+        the problem by providing a simple space to store and search
+        information regarding such settings.
+      </p>
+
+      <hr />
+      <h3 id="funding">Funding</h3>
+
+      <p>
+        This project isn't currently looking for funding.
+        If you have the money to spare, please consider instead
+        donating to
+        <a href="https://pluralkit.mn">
+          Roryl at TupperBox
+          <sup>
+            <span class="iconify" data-icon="mdi:link-variant"></span>
+          </sup>
+        </a> so they can keep on hosting and developing a valuable
+        tool for many Discord users.
+      </p>
+
+    </div>
+  </body>
+</html>
