@@ -59,6 +59,16 @@ div.center h1 {
   margin-top: 5%;
 }
 
+div.center div.discord-login-status {
+    border-radius: 24px;
+    background-color: #5567e3;
+    color: #ffffff;
+    width: 50%;
+    margin-left: 25%;
+    padding: 2px;
+    text-align: center;
+}
+
 div.center h2 {
   width: 100%;
   text-align: center;
@@ -124,16 +134,10 @@ div.center button.discord-btn {
     background: #5567e3;
 }
 
-div.center button.twitch-btn:hover {
-  background: linear-gradient(90deg, #a970ff, #754db1);
-}
-
-div.center button.steam-btn {
-  background: #333333;
-}
-
-div.center button.steam-btn:hover {
-  background: linear-gradient(90deg, #16283e, #1f93be);
+div.center button.wireframe-btn {
+    color: grey;
+    background: transparent;
+    border: 1px solid grey;
 }
 
 @media only screen and (min-width: 800px) {

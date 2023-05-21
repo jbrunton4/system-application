@@ -1,0 +1,4 @@
+- On login, if no account exists, create one
+- On login, if account exists, compute stats and load to dashboard
+- Edit pages
+- Import/export data

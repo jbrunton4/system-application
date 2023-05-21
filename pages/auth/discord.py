@@ -1,6 +1,5 @@
 from __main__ import app
 import flask
-import requests
 import json
 from zenora import APIClient
 

@@ -1,6 +1,5 @@
 from __main__ import app
 import flask
-import requests
 import json
 from zenora import APIClient
 
@@ -12,7 +11,7 @@ with open("config.json", "r") as fh:
     client_token = data["discordApplicationToken"]
 
 # initialize the Zenora API client
-zenora_client = APIClient(client_token) # @todo: Make a single instance of Zenora client in main and import elsewhere
+zenora_client = APIClient(client_token)
 
 
 @app.route("/account/dashboard", methods=["GET"])

@@ -1,6 +1,6 @@
 from uuid import uuid4
-from secrets import token_urlsafe
-from time import time
+from models.alter import Alter
+from models.subsystem import Subsystem
 import sqlite3
 
 from typing import List
@@ -8,128 +8,104 @@ from typing import List
 
 class User:
 
-    def __init__(self, username: str = None) -> None:
+    def __init__(self, discord_id: str = None) -> None:
         """
         Constructor for the User class
         """
 
-        self.display_name: str = str()
-        self.description: str = str()
-        self.subsystems: List[str] = list()
-        self.members: List[str] = list()
+        self.discord_id: str = str()
         self.profile_picture_url: str = str()
-        self.banner_url: str = str()
-        self.theme_colour: str = str()
+        self.system_name: str = str()
+        self.alters: List[Alter] = list()
+        self.subsystems: List[Subsystem] = list()
 
-        self._uuid: str = str(uuid4())
-        self._username: str = str()
-        self._password: str = str()
-        self._session_tokens: dict = dict()
+        if discord_id is not None:
+            self._load(discord_id)
 
-        if username is not None:
-            self._load(username)
+    def _load(self, discord_id: str) -> None:
 
-    def _load(self, username: str) -> None:
-        """
-        Loads information from the database
-        :param username: The username to query
-        :return: None
-        """
+        # ensure that the user exists
+        assert exists(discord_id), NameError("User does not exist")
 
-        if not exists(username):
-            raise NameError("User does not exist")
-
-        conn = sqlite3.connect("data/user.db")
+        # get the info
+        conn = sqlite3.connect("data/users.db")
         conn.row_factory = sqlite3.Row  # for dict output
         curs = conn.cursor()
         command = f"""
-        SELECT * FROM user WHERE username='{username}';
-        """
+                SELECT * FROM users WHERE discordId='{discord_id}';
+                """
         curs.execute(command)
         row = curs.fetchall()[0]
         result = dict(zip(row.keys(), row))
         conn.close()
 
-        self.uuid = result["uuid"]
-        self._username = result["username"]
-        self.description = result["description"]
         self.profile_picture_url = result["profilePictureUrl"]
-        self.banner_url = result["bannerUrl"]
-        self.theme_colour = result["themeColour"]
-        self._password = result["password"]
+        self.system_name = result["systemName"]
+
+        # get all alters in the system
+        conn = sqlite3.connect("data/alters.db")
+        conn.row_factory = sqlite3.Row  # for dict output
+        curs = conn.cursor()
+        command = f"""
+        SELECT * FROM alters WHERE parentUser='{discord_id}';
+        """
+        curs.execute(command)
+        try:
+            row = curs.fetchall()[0]
+            result = dict(zip(row.keys(), row))
+            conn.close()
+
+            print(result)
+        except IndexError:
+            self.alters = []
 
         # @todo: in load, add method to get members inc subsyss
 
-    def save(self) -> None:
-        # initialise the SQL connector
-        conn = sqlite3.connect("data/user.db")
+    def create_alter(self, new_alter_name: str) -> None:
+
+        # create the new alter
+
+        # generate a new uuid
+        new_uuid = str(uuid4())
+
+        # connect to the database and create a user
+        conn = sqlite3.connect("data/alters.db")
         curs = conn.cursor()
         command = f"""
-        UPDATE user
-        SET uuid='{self.get_uuid()}',
-            username='{self.get_username()}',
-            description='{self.description}',
-            profilePictureUrl='{self.profile_picture_url}',
-            bannerUrl='{self.banner_url}',
-            themeColour='{self.theme_colour}',
-            password='{self._password}'
-        ) WHERE uuid='{self.get_uuid()}';
-        """
+            INSERT INTO alters (uuid, parentUser, name)
+            VALUES ('{new_uuid}', '{self.discord_id}', '{new_alter_name}')
+            """
         curs.execute(command)
         conn.commit()
         conn.close()
 
-    def get_username(self) -> str:
-        """
-        Getter method for private property self._username
-        :return: This instance's username
-        """
-        return self._username
+        self.alters.append(Alter(new_uuid))
 
-    def get_uuid(self) -> str:
-        """
-        Getter method for private property self._uuid
-        :return: This instance's uuid
-        """
-        return self._uuid
+    def remove_alter(self, alter_uuid: str) -> None:
 
-    def validate_password(self, password_attempt: str) -> bool:
-        """
-        Checks a password attempt against this instance's private attr password
-        :param password_attempt: The password attempt to compare
-        :return: True if matches, else False
-        """
-        return password_attempt == self._password
+        # remove from this instance
+        for alter in self.alters:
+            if alter.get_uuid() == alter_uuid:
+                self.alters.remove(alter)
 
-    def validate_session_token(self, token_attempt: str) -> bool:
-        """
-        Check if a given token is valid for this account
-        :param token_attempt: The token attempt to compare
-        :return: True if valid, else False
-        """
-        if token_attempt in self._session_tokens:
-            return self._session_tokens[token_attempt] <= time()
-        return False
+        # delete from database
+        Alter(alter_uuid).delete()
 
-    def create_session_token(self, expires_seconds: int = 155_250_000) -> str:
+    def save(self) -> None:
+        # initialise the SQL connector
+        conn = sqlite3.connect("data/users.db")
+        curs = conn.cursor()
+        command = f"""
+        UPDATE users
+        SET (
+            discordId='{self.discord_id}',
+            profilePictureUrl='{self.profile_picture_url}',
+            systemName='{self.system_name}'
+        ) WHERE discordId='{self.discord_id}';
         """
-        Creates and stores a session token
-        :param expires_seconds: The number of seconds after which the token should exite
-        :return: The session token as a string
-        """
-        # create the new token
-        new_token = token_urlsafe()
-        self._session_tokens[new_token] = time() + expires_seconds
-        self.save()
-        return new_token
-
-    def revoke_session_token(self, token: str) -> None:
-        del self._session_tokens[token]
-        self.save()
-
-    def clear_session_tokens(self) -> None:
-        self._session_tokens = {}
-        self.save()
+        curs.execute(command)
+        conn.commit()
+        conn.close()
 
     def delete(self):
         """
@@ -139,60 +115,47 @@ class User:
         conn = sqlite3.connect("data/user.db")
         curs = conn.cursor()
         command = f"""
-            DELETE FROM user WHERE uuid='{self.get_uuid()}';
+            DELETE FROM users WHERE discordId='{self.discord_id}';
             """
         curs.execute(command)
         conn.commit()
         conn.close()
 
+        # @todo: Also delete child alters and subsyss
+
     # @todo: add_alter, remove_alter, add_subsystem, remove_subsystem
 
 
-def new(new_username: str, new_password: str) -> User:
-    """
-    Create a new instance
-    :param new_username: The username to create
-    :param new_password: The password to create
-    :return: A new session token lasting 30 days
-    """
+def new(new_discord_id: str) -> User:
 
     # check that the username is not taken
-    if exists(new_username):
+    if exists(new_discord_id):
         raise NameError("Username taken")
 
-    # generate a new uuid
-    new_uuid = str(uuid4())
-
     # connect to the database and create a user
-    conn = sqlite3.connect("data/user.db")
+    conn = sqlite3.connect("data/users.db")
     curs = conn.cursor()
     command = f"""
-    INSERT INTO user (uuid, username, password)
-    VALUES ('{new_uuid}', '{new_username}', '{new_password}')
+    INSERT INTO users (discordId)
+    VALUES ('{new_discord_id}')
     """
     curs.execute(command)
     conn.commit()
     conn.close()
 
     # return the new instance
-    return User(new_username)
+    return User(new_discord_id)
 
 
-def create(new_username: str, new_password: str) -> User:
-    """
-    Alias for user.new
-    :param new_username: The username to create
-    :param new_password: The password to create
-    :return: The new User
-    """
-    return new(new_username, new_password)
+def create(new_discord_id: str) -> User:
+    return new(new_discord_id)
 
 
-def exists(username: str) -> bool:
-    conn = sqlite3.connect("data/user.db")
+def exists(discord_id: str) -> bool:
+    conn = sqlite3.connect("data/users.db")
     curs = conn.cursor()
     command = f"""
-    SELECT * FROM user WHERE username='{username}';
+    SELECT * FROM users WHERE discordId='{discord_id}';
     """
     curs.execute(command)
     results = curs.fetchall()

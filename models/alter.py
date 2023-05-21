@@ -28,13 +28,12 @@ class Alter:
         self._load(uuid)
 
     def save(self) -> None:
-        # initialise the SQL connector
-        conn = sqlite3.connect("data/alter.db")
+        # initialise the SQL connector @todo: Update save and load methods here to fix User.add_alter()
+        conn = sqlite3.connect("data/alters.db")
         curs = conn.cursor()
         command = f"""
-        UPDATE alter
-        SET uuid='{self.get_uuid()}',
-            name='{self.name}',
+        UPDATE alters
+        SET name='{self.name}',
             pronouns='{self.pronouns}',
             age='{self.age}',
             autoAge='{self.auto_age}',
@@ -66,11 +65,11 @@ class Alter:
         if not exists(uuid):
             raise NameError("Alter does not exist")
 
-        conn = sqlite3.connect("data/alter.db")
+        conn = sqlite3.connect("data/alters.db")
         conn.row_factory = sqlite3.Row
         curs = conn.cursor()
         command = f"""
-                SELECT * FROM alter WHERE uuid='{uuid}';
+                SELECT * FROM alters WHERE uuid='{uuid}';
                 """
         curs.execute(command)
         row = curs.fetchall()[0]
@@ -81,18 +80,30 @@ class Alter:
         self.name = result["name"]
         self.pronouns = result["pronouns"]
         self.age = result["age"]
-        self.auto_age = result["autoAge"]
-        self.age_category = result["ageCategory"]
+        self.autoAge = result["autoAge"]
         self.roles = result["roles"]
-        self.theme_colour = result["themeColour"]
         self.profile_picture_url = result["profilePictureUrl"]
-        self.banner_url = result["bannerUrl"]
         self.start_tag = result["startTag"]
         self.end_tag = result["endTag"]
-        self.typing_quirk = result["typingQuirk"]
         self.description = result["description"]
 
-    # @todo: delete()
+        # @todo: get_parent_user() -> User, get_parent_subsys() -> Subsys
+
+    def delete(self) -> None:
+        """
+        Deletes this instance from the database
+        :return: None
+        """
+
+        conn = sqlite3.connect("data/alters.db")
+        curs = conn.cursor()
+        command = f"""
+                            DELETE FROM alters WHERE uuid='{self._uuid}';
+                            """
+        curs.execute(command)
+        conn.commit()
+        conn.close()
+
 
 
 def new(new_name: str) -> Alter:
@@ -106,10 +117,10 @@ def new(new_name: str) -> Alter:
     new_uuid = str(uuid4())
 
     # connect to the database and create a user
-    conn = sqlite3.connect("data/alter.db")
+    conn = sqlite3.connect("data/alters.db")
     curs = conn.cursor()
     command = f"""
-    INSERT INTO alter (uuid, name)
+    INSERT INTO alters (uuid, name)
     VALUES ('{new_uuid}', '{new_name}')
     """
     curs.execute(command)
@@ -130,10 +141,10 @@ def create(new_name: str) -> Alter:
 
 
 def exists(uuid: str) -> bool:
-    conn = sqlite3.connect("data/alter.db")
+    conn = sqlite3.connect("data/alters.db")
     curs = conn.cursor()
     command = f"""
-    SELECT * FROM alter WHERE uuid='{uuid}';
+    SELECT * FROM alters WHERE uuid='{uuid}';
     """
     curs.execute(command)
     results = curs.fetchall()
@@ -142,3 +153,4 @@ def exists(uuid: str) -> bool:
     return len(results) >= 1
 
 # @todo: is_subsys_alter
+# literally just "parentSubsysId is not none"

@@ -1,55 +1,48 @@
 import sqlite3
 
 # users database
-conn = sqlite3.connect("data/user.db")
+conn = sqlite3.connect("data/users.db")
 curs = conn.cursor()
 command = """
-CREATE TABLE user (
-    uuid STRING PRIMARY KEY,
-    username STRING,
-    description STRING,
+CREATE TABLE users (
+    discordId STRING PRIMARY KEY,
     profilePictureUrl STRING,
-    bannerUrl STRING,
-    themeColour STRING,
-    password STRING
+    systemName STRING
 );"""
 curs.execute(command)
 conn.commit()
 conn.close()
 
 # alters database
-conn = sqlite3.connect("data/alter.db")
+conn = sqlite3.connect("data/alters.db")
 curs = conn.cursor()
 command = """
-CREATE TABLE alter (
+CREATE TABLE alters (
     uuid STRING PRIMARY KEY,
+    parentUser STRING,
+    parentSubsystem STRING,
     name STRING,
     pronouns STRING,
-    age INTEGER,
+    age STRING,
     autoAge BOOLEAN,
-    ageCategory STRING,
     roles STRING,
-    themeColour STRING,
     profilePictureUrl STRING,
-    bannerUrl STRING,
     startTag STRING,
     endTag STRING,
-    typingQuirk STRING,
-    description STRING,
-    parentAccount STRING,
-    parentSubsystem STRING
+    description STRING
 );"""
 curs.execute(command)
 conn.commit()
 conn.close()
 
-# tokens database
-conn = sqlite3.connect("data/token.db")
+# subsystems database
+conn = sqlite3.connect("data/subsystems.db")
 curs = conn.cursor()
 command = """
-CREATE TABLE token (
-    uuid STRING PRIMARY KEY,
-    token STRING,
-    expires FLOAT,
-    parentAccount STRING
+CREATE TABLE subsystems (
+    uuid STRING PRIMARY KEY;
+    name STRING,
+    parentUser STRING,
+    description STRING,
+    profilePictureUrl STRING
 );"""
