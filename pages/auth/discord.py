@@ -28,4 +28,4 @@ def auth_discord() -> flask.Response:
         flask.session["token"] = access_token
         return flask.make_response(flask.redirect("/account/dashboard"))
 
-    return flask.render_template("index.html")  # @todo: Change to error page
+    return flask.make_response(flask.render_template("account/errors/not-logged-in.html"))

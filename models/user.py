@@ -55,11 +55,28 @@ class User:
             result = dict(zip(row.keys(), row))
             conn.close()
 
-            print(result)
+            print(result) # @todo: add result to self.alters
         except IndexError:
             self.alters = []
 
-        # @todo: in load, add method to get members inc subsyss
+        # get all the subsystems
+        conn = sqlite3.connect("data/subsystems.db")
+        conn.row_factory = sqlite3.Row  # for dict output
+        curs = conn.cursor()
+        command = f"""
+            SELECT * FROM subsystems WHERE parentUser='{discord_id}';
+            """
+        curs.execute(command)
+        try:
+            row = curs.fetchall()[0]
+            result = dict(zip(row.keys(), row))
+            conn.close()
+
+            print(result)  # @todo: Add result to self.subsystems
+        except IndexError:
+            self.subsystems = []
+
+        # @todo: in load, add method to get subsyss
 
     def create_alter(self, new_alter_name: str) -> None:
 

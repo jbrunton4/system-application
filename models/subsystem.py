@@ -103,7 +103,6 @@ class Subsystem:
 
         self.alters.append(Alter(new_uuid))
 
-    # @todo: add_alter, remove_alter, delete(destroy_members=False)
     def remove_alter(self, alter_uuid: str, destroy: bool = False):
 
         for alter in self.alters:
@@ -113,10 +112,10 @@ class Subsystem:
                     alter.delete()
 
                 self.alters.remove(alter)
-                self.parent_user.remove_alter(alter.get_uuid())  # @todo: User.remove_alter()
+                self.parent_user.remove_alter(alter.get_uuid())
                 self.parent_user.save()
 
-        self.save()  # @todo: self.save()
+        self.save()
 
     def save(self):
         conn = sqlite3.connect("data/subsystems.db")

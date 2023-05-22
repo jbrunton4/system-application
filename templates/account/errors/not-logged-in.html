@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Not Logged In</title>
+
+    {% include 'metadata.html' %}
+  </head>
+  <body>
+    <div class="center" style="padding: 2%;">
+
+      <h1>
+        Oops!
+      </h1>
+      <h2>
+        Looks like you're not logged in.
+      </h2>
+
+      <hr />
+        Before you access this page, you'll need to sign in using Discord.
+      <hr />
+
+      {% include 'discord-login-btn.html' %}
+
+    </div>
+  </body>
+</html>

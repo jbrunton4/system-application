@@ -28,7 +28,7 @@ class Alter:
         self._load(uuid)
 
     def save(self) -> None:
-        # initialise the SQL connector @todo: Update save and load methods here to fix User.add_alter()
+        # initialise the SQL connector
         conn = sqlite3.connect("data/alters.db")
         curs = conn.cursor()
         command = f"""
@@ -104,6 +104,20 @@ class Alter:
         conn.commit()
         conn.close()
 
+    def is_subsys_alter(self) -> bool:
+        conn = sqlite3.connect("data/alters.db")
+        conn.row_factory = sqlite3.Row
+        curs = conn.cursor()
+        command = f"""
+                        SELECT * FROM alters WHERE uuid='{self._uuid}';
+                        """
+        curs.execute(command)
+        row = curs.fetchall()[0]
+        result = dict(zip(row.keys(), row))
+        conn.close()
+
+        return result["parentSubsystem"] is None or result["parentSubsystem"] == "None"
+
 
 
 def new(new_name: str) -> Alter:
@@ -151,6 +165,3 @@ def exists(uuid: str) -> bool:
     conn.close()
 
     return len(results) >= 1
-
-# @todo: is_subsys_alter
-# literally just "parentSubsysId is not none"
