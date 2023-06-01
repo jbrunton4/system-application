@@ -40,9 +40,12 @@ conn = sqlite3.connect("data/subsystems.db")
 curs = conn.cursor()
 command = """
 CREATE TABLE subsystems (
-    uuid STRING PRIMARY KEY;
+    uuid STRING PRIMARY KEY,
     name STRING,
     parentUser STRING,
     description STRING,
     profilePictureUrl STRING
 );"""
+curs.execute(command)
+conn.commit()
+conn.close()

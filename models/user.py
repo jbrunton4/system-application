@@ -55,9 +55,10 @@ class User:
             result = dict(zip(row.keys(), row))
             conn.close()
 
-            print(result) # @todo: add result to self.alters
+            print(result)  # @todo: add result to self.alters
         except IndexError:
             self.alters = []
+            conn.close()
 
         # get all the subsystems
         conn = sqlite3.connect("data/subsystems.db")
@@ -76,21 +77,17 @@ class User:
         except IndexError:
             self.subsystems = []
 
-        # @todo: in load, add method to get subsyss
-
-    def create_alter(self, new_alter_name: str) -> None:
-
-        # create the new alter
+    def create_alter(self, new_name: str, subsystem: Subsystem = None) -> None:
 
         # generate a new uuid
         new_uuid = str(uuid4())
 
-        # connect to the database and create a user
+        # connect to the database and create a new alter
         conn = sqlite3.connect("data/alters.db")
         curs = conn.cursor()
         command = f"""
-            INSERT INTO alters (uuid, parentUser, name)
-            VALUES ('{new_uuid}', '{self.discord_id}', '{new_alter_name}')
+            INSERT INTO alters (uuid, name{', parentSubsystem' if subsystem is not None else ''})
+            VALUES ('{new_uuid}', '{new_name}'{", '" + subsystem.get_uuid() + "'" if subsystem is not None else ''})
             """
         curs.execute(command)
         conn.commit()
@@ -129,7 +126,9 @@ class User:
         Deletes this instance from the database
         :return: None
         """
-        conn = sqlite3.connect("data/user.db")
+
+        # delete user
+        conn = sqlite3.connect("data/users.db")
         curs = conn.cursor()
         command = f"""
             DELETE FROM users WHERE discordId='{self.discord_id}';
@@ -138,9 +137,59 @@ class User:
         conn.commit()
         conn.close()
 
-        # @todo: Also delete child alters and subsyss
+        # delete subsystems and alters
+        for subsystem in self.subsystems:
+            delete_subsystem(subsystem)
 
-    # @todo: add_alter, remove_alter, add_subsystem, remove_subsystem
+    def create_subsystem(self, new_subsys_name: str) -> None:
+
+        # generate a new uuid
+        new_uuid = str(uuid4())
+
+        # connect to the database and create a subsystem
+        conn = sqlite3.connect("data/subsystems.db")
+        curs = conn.cursor()
+        command = f"""
+                INSERT INTO subsystems (uuid, name, parentUser)
+                VALUES ('{new_uuid}', '{new_subsys_name}', '{self.discord_id}');
+                """
+        curs.execute(command)
+        conn.commit()
+        conn.close()
+
+        self.subsystems.append(Subsystem(new_uuid))
+
+
+def delete_subsystem(subsystem: Subsystem,
+                     destroy_alters: bool = False) -> None:
+
+    # delete or reassign alters
+    if destroy_alters:
+        for alter in subsystem.alters:
+            alter.delete()
+    else:  # if not deleting, reassign to no subsys
+        conn = sqlite3.connect("data/alters.db")
+        curs = conn.cursor()
+        command = f"""
+                    UPDATE alters
+                    SET (
+                        parentSubsystem='{None}'
+                    ) WHERE parentSubsystem='{subsystem.get_uuid()}';
+                    """
+        curs.execute(command)
+        conn.close()
+
+    # delete the subsystem itself
+    conn = sqlite3.connect("data/subsystems.db")
+    curs = conn.cursor()
+    command = f"""
+                        DELETE FROM subsystems WHERE uuid='{subsystem.get_uuid()}';
+                        """
+    curs.execute(command)
+    conn.commit()
+    conn.close()
+    # @todo: Delete orphaned user and subsys script
+    # DELETE * FROM alters WHERE parentSubsys and parentUser are none
 
 
 def new(new_discord_id: str) -> User:

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+
+    {% include 'metadata.html' %}
+  </head>
+  <body>
+    <div class="center">
+      <img src="{{ current_user.avatar_url }}" id="pfp"/>
+
+      <h1>
+        {{ current_user.username }}<sub><font color="#c3c3c3">#{{ current_user.discriminator }}</font></sub>
+      </h1>
+
+      <div class="discord-login-status">
+        Logged In with
+        <span class="iconify" data-icon="jam:discord"></span> Discord
+      </div>
+
+      <hr />
+
+      <h1>Welcome!</h1>
+
+      Looks like it's your first time here!
+
+      We've automatically set up the basics of your profile based on your discord account.
+
+
+      <hr />
+
+      <button class="action-btn" onclick="window.location.href = window.location.origin + '/account/dashboard'">
+        <span class="iconify" data-icon="mdi:arrow"></span>
+        To My Dashboard
+      </button>
+
+    </div>
+  </body>
+</html>

@@ -87,8 +87,6 @@ class Alter:
         self.end_tag = result["endTag"]
         self.description = result["description"]
 
-        # @todo: get_parent_user() -> User, get_parent_subsys() -> Subsys
-
     def delete(self) -> None:
         """
         Deletes this instance from the database
@@ -118,40 +116,18 @@ class Alter:
 
         return result["parentSubsystem"] is None or result["parentSubsystem"] == "None"
 
-
-
-def new(new_name: str) -> Alter:
-    """
-    Create a new instance
-    :param new_name: The username to create
-    :return: A new session token lasting 30 days
-    """
-
-    # generate a new uuid
-    new_uuid = str(uuid4())
-
-    # connect to the database and create a user
-    conn = sqlite3.connect("data/alters.db")
-    curs = conn.cursor()
-    command = f"""
-    INSERT INTO alters (uuid, name)
-    VALUES ('{new_uuid}', '{new_name}')
-    """
-    curs.execute(command)
-    conn.commit()
-    conn.close()
-
-    # return the new instance
-    return Alter(new_name)
-
-
-def create(new_name: str) -> Alter:
-    """
-    Alias for alter.new
-    :param new_name: The username to create
-    :return: The new User
-    """
-    return new(new_name)
+    def remove_from_subsys(self) -> None:
+        conn = sqlite3.connect("data/alters.db")
+        curs = conn.cursor()
+        command = f"""
+                        UPDATE alters
+                        SET ( 
+                            parentSubsystem='{None}'
+                        ) WHERE uuid='{self._uuid}';
+                        """
+        curs.execute(command)
+        conn.commit()
+        conn.close()
 
 
 def exists(uuid: str) -> bool:

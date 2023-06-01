@@ -24,14 +24,33 @@
 
     <hr/>
 
+    <h1>Are You Sure?</h1>
+
+    Deleting your account will immediately delete all your alters and
+    subsystems. This data can never be recovered!
+
+    To continue, please type the following verification code:
+
+    <hr />
+
+    <form method="post">
+
+        {{ status }}
+
+        <input readonly name="correct_verification_code" value="{{ verification_code }}"/>
+        <br />
+        <input type="text" name="verification_code" placeholder="Enter verification code" />
+        <br /><br />
 
         <button class="action-btn"
-                style="background: red;"
-                onclick="window.location.href = window.location.origin + '/account/closure-confirmation';">
+                type="submit"
+                name="submit_button"
+                style="background: red;">
             <span class="iconify" data-icon="jam:trash"></span>
-            Close My Account
+            Confirm
         </button>
 
+    </form>
 
 </div>
 </body>

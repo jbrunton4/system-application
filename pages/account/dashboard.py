@@ -2,22 +2,23 @@ from __main__ import app
 import flask
 import json
 from zenora import APIClient
-
-# load the client ID and secret from config
-with open("config.json", "r") as fh:
-    data = json.load(fh)
-    client_id = data["discordClientId"]
-    client_secret = data["discordClientSecret"]
-    client_token = data["discordApplicationToken"]
-
-# initialize the Zenora API client
-zenora_client = APIClient(client_token)
+from models import user
 
 
 @app.route("/account/dashboard", methods=["GET"])
 def dashboard() -> flask.Response:
 
     if "token" in flask.session:
+
+        # get the current user from the discord rest API
         bearer_client = APIClient(flask.session.get("token"), bearer=True)
         current_user = bearer_client.users.get_current_user()
+
+        # if the current user isn't already a signed up member, create a system
+        if not user.exists(str(current_user.id)):
+            u = user.new(str(current_user.id))
+            u.system_name = current_user.username
+            u.profile_picture_url = current_user.avatar_url
+            return flask.make_response(flask.redirect("account/welcome"))
+
         return flask.make_response(flask.render_template("account/dashboard.html", current_user=current_user))
