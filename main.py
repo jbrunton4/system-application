@@ -16,6 +16,7 @@ zenora_client = APIClient(client_token)
 
 from pages.auth import discord
 from pages.account import dashboard, settings, closure_confirmation
+from pages.account.alter import create, edit, view
 from pages import about
 
 

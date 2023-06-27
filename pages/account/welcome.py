@@ -9,7 +9,7 @@ def welcome() -> flask.Response:
 
     if "token" in flask.session:
 
-        # get the current user from the discord rest API
+        # get the current alter from the discord rest API
         bearer_client = APIClient(flask.session.get("token"), bearer=True)
         current_user = bearer_client.users.get_current_user()
 

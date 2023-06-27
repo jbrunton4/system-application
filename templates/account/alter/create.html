@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+
+    {% include 'metadata.html' %}
+  </head>
+  <body>
+    <div class="center">
+      <img src="{{ current_user.avatar_url }}" id="pfp"/>
+
+      <h1>
+        {{ current_user.username }}<sub><font color="#c3c3c3">#{{ current_user.discriminator }}</font></sub>
+      </h1>
+
+      <div class="discord-login-status">
+        Logged In with
+        <span class="iconify" data-icon="jam:discord"></span> Discord
+      </div>
+
+      <h2>
+        "System Name Goes Here"
+      </h2>
+
+      <hr />
+
+      <form method="post">
+
+        <h3>Let's start with a name...</h3>
+        <span style="width: 100%; text-align: center;">You can always change it later!</span>
+
+          <input type="text" name="new_alter_name" placeholder="Alter name..." style="height: 4vh; font-size: 2vh; border-radius: 6px; border: 2px solid #3c3c3c;" />
+
+          <button class="btn btn-success btn-inline-flex" type="submit">
+          <span class="iconify" data-icon="mdi:plus"></span>
+          Create Alter
+        </button>
+
+
+      </form>
+
+
+
+
+    </div>
+  </body>
+</html>

@@ -8,7 +8,7 @@ from models.user import User
 @app.route("/account/closure-confirmation", methods=["GET"])
 def closure_confirmation() -> flask.Response:
 
-    # ensure that the user is logged in
+    # ensure that the alter is logged in
     if "token" in flask.session:
         bearer_client = APIClient(flask.session.get("token"), bearer=True)
         current_user = bearer_client.users.get_current_user()

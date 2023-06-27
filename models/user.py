@@ -24,7 +24,7 @@ class User:
 
     def _load(self, discord_id: str) -> None:
 
-        # ensure that the user exists
+        # ensure that the alter exists
         assert exists(discord_id), NameError("User does not exist")
 
         # get the info
@@ -77,7 +77,7 @@ class User:
         except IndexError:
             self.subsystems = []
 
-    def create_alter(self, new_name: str, subsystem: Subsystem = None) -> None:
+    def create_alter(self, new_name: str, subsystem: Subsystem = None) -> Alter:
 
         # generate a new uuid
         new_uuid = str(uuid4())
@@ -93,7 +93,9 @@ class User:
         conn.commit()
         conn.close()
 
-        self.alters.append(Alter(new_uuid))
+        new_alter = Alter(new_uuid)
+        self.alters.append(new_alter)
+        return new_alter
 
     def remove_alter(self, alter_uuid: str) -> None:
 
@@ -127,7 +129,7 @@ class User:
         :return: None
         """
 
-        # delete user
+        # delete alter
         conn = sqlite3.connect("data/users.db")
         curs = conn.cursor()
         command = f"""
@@ -188,7 +190,7 @@ def delete_subsystem(subsystem: Subsystem,
     curs.execute(command)
     conn.commit()
     conn.close()
-    # @todo: Delete orphaned user and subsys script
+    # @todo: Delete orphaned alter and subsys script
     # DELETE * FROM alters WHERE parentSubsys and parentUser are none
 
 
@@ -198,7 +200,7 @@ def new(new_discord_id: str) -> User:
     if exists(new_discord_id):
         raise NameError("Username taken")
 
-    # connect to the database and create a user
+    # connect to the database and create a alter
     conn = sqlite3.connect("data/users.db")
     curs = conn.cursor()
     command = f"""

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+
+    {% include 'metadata.html' %}
+
+    <style>
+            .form-group {
+                margin-top: 2vh !important;
+            }
+        </style>
+</head>
+<body>
+<div class="center">
+    <img id="pfp" src="{{ current_user.avatar_url }}"/>
+
+    <h1>
+        {{ current_user.username }}<sub><font color="#c3c3c3">#{{ current_user.discriminator }}</font></sub>
+    </h1>
+
+    <div class="discord-login-status">
+        Logged In with
+        <span class="iconify" data-icon="jam:discord"></span> Discord
+    </div>
+
+    <h2>
+        "System Name Goes Here"
+    </h2>
+
+    <hr/>
+
+    <form method="post">
+
+        <h3>Edit Alter Info</h3>
+
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input class="form-control"
+                   id="name"
+                   name="name"
+                   type="text"
+                   value="{{ name }}"/>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <input class="form-control"
+                   id="description"
+                   name="description"
+                   type="text"
+                   value="{{ description }}"/>
+        </div>
+        <div class="form-group">
+            <label for="name">Pronouns:</label>
+            <input class="form-control"
+                   id="pronouns"
+                   name="pronouns"
+                   type="text"
+                   value="{{ pronouns }}"/>
+        </div>
+        <div class="form-group">
+            <label for="name">Age:</label>
+            <input class="form-control"
+                   id="age"
+                   name="age"
+                   type="text"
+                   value="{{ age }}"/>
+            Auto Age?
+            <input
+                    id="autoAge"
+                    name="auto_age"
+                    type="checkbox"
+                    value="{{ auto_age }}"/>
+        </div>
+        <div class="form-group">
+            <label for="name">Roles:</label>
+            <input class="form-control"
+                   id="roles"
+                   name="roles"
+                   type="text"
+                   value="{{ roles }}"/>
+        </div>
+        <div class="form-group">
+            <label for="name">Profile Picture (URL):</label>
+            <input class="form-control"
+                   id="profilePictureUrl"
+                   name="profile_picture_url"
+                   type="text"
+                   value="{{ profile_picture_url }}"/>
+        </div>
+        <div class="form-group">
+            <label for="name">Start Tag:</label>
+            <input class="form-control"
+                   id="startTag"
+                   name="start_tag"
+                   type="text"
+                   value="{{ start_tag }}"
+                    placeholder="&lt;&lt; text"/>
+            <small id="tagTooltip"></small>
+        </div>
+        <div class="form-group">
+            <label for="name">End Tag:</label>
+            <input class="form-control"
+                   id="endTag"
+                   name="end_tag"
+                   type="text"
+                   value="{{ end_tag }}"
+                    placeholder="text ))"/>
+        </div>
+
+
+        <button class="btn btn-primary" type="submit">
+            <span class="iconify" data-icon="mdi:pencil"></span>
+            Save
+        </button>
+
+
+    </form>
+
+    <script defer>
+        // fun little script to randomise placeholders
+
+        function rand(arr) {
+            return arr[Math.floor(Math.random()*arr.length)];
+        }
+
+        const names = [
+            "John Doe",
+            "Jane Doe",
+            "Potato Muncher",
+            "Beluga Whale",
+            "Kermit D. Frog"
+        ];
+        const descriptions = [
+            "Your friendly neighbourhood Spider-Man!",
+            "Local crayon-eater",
+            "Gay crime-doer"
+        ];
+        const subjectives = ["he", "they", "she", "xe"];
+        const objectives = ["him", "them", "her", "xem"];
+        const ages = ["18", "28", "3,478", "immortal", "ageless"];
+        const rolesArr = ["Protector", "Caretaker", "Gatekeeper", "Trauma-Holder", "Host", "Co-Host"];
+        const urls = [
+            "https://example.com/image.png"
+        ];
+        const tagTooltips = [
+            "Tags support HTML markup! Try using &lt;b&gt;<b>bold</b>&lt;/b&gt; text!",
+            "Tags support HTML markup! Try using &lt;i&gt;<i>italic</i>&lt;/i&gt; text!",
+        ];
+
+        var name = rand(names);
+        var description = rand(descriptions);
+        var pronouns = rand(subjectives) + "/" + rand(objectives);
+        var age = rand(ages);
+        var roles = rand(rolesArr) + ", " + rand(rolesArr);
+        var pfpUrl = rand(urls);
+        var tagTooltip = rand(tagTooltips);
+
+
+        document.getElementById("name").placeholder = name;
+        document.getElementById("description").placeholder = description;
+        document.getElementById("pronouns").placeholder = pronouns;
+        document.getElementById("age").placeholder = age;
+        document.getElementById("roles").placeholder = roles;
+        document.getElementById("profilePictureUrl").placeholder = pfpUrl;
+        document.getElementById("tagTooltip").innerHTML = tagTooltip;
+
+
+    </script>
+
+
+</div>
+</body>
+</html>

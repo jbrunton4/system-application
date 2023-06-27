@@ -37,16 +37,12 @@ class Alter:
             pronouns='{self.pronouns}',
             age='{self.age}',
             autoAge='{self.auto_age}',
-            ageCategory='{self.age_category}',
             roles='{self.roles}',
-            themeColour='{self.theme_colour}',
             profilePictureUrl='{self.profile_picture_url}',
-            bannerUrl='{self.banner_url}',
             startTag='{self.start_tag}',
             endTag='{self.end_tag}',
-            typingQuirk='{self.typing_quirk}',
             description='{self.description}'
-        ) WHERE uuid='{self.get_uuid()}';
+         WHERE uuid='{self.get_uuid()}';
         """
         curs.execute(command)
         conn.commit()

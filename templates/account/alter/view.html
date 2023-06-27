@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Name In Progress</title>
+
+    {% include 'metadata.html' %}
+  </head>
+  <body>
+    <div class="center">
+      <img src="{{ alter.profile_picture_url }}" id="pfp"/>
+
+      <h1>
+        {{alter.start_tag}}{{ alter.name }}{{ alter.end_tag }}
+      </h1>
+      <h2>
+        {{ alter.roles or "" }} of {{ current_user.username }}<sub><font color="#c3c3c3">#{{ current_user.discriminator }}</font></sub>'s
+        {{ system_name }}
+      </h2>
+
+      <hr />
+
+      {{ alter.description }}
+
+
+    </div>
+  </body>
+</html>
